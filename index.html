@@ -85,7 +85,10 @@
 						var elem = $('#list').children('#'+coin.id);
 						var html = '<tr id="' + coin.id + '">' + 
 													'<td>' + coin.name + '</td>' + 
-													'<td>' + coin.price_btc + '</td>' + 
+													'<td>' +
+														'<p>' + coin.price_btc + '</p>' + 
+														'<small>' + coin.price_usd + '</small>' + 
+													'</td>' + 
 													'<td>' + wallet.balance + '</td>' + 
 													'<td>' + walletBalance + '</td>' + 
 												'</tr>';
