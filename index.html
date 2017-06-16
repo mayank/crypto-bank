@@ -71,7 +71,7 @@
 						});
 						$('#totalpre').html(walletBalance.toFixed(5));
 						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
-								$('#totalpost').html(Math.floor(walletBalance*parseInt(result)));
+								$('#totalpost').html(Math.floor(walletBalance*parseInt(result.sell)));
 						});
 				}
 				
