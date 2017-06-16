@@ -5,27 +5,25 @@
 		<meta content='width=device-width,initial-scale=1.0' name='viewport'>
 	</head>
 	<body>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-5">
-					<table class="table text-center">
-						<thead>
-							<tr class="info">
-								<th>Currency</th>
-								<th>Sell Price</th>
-								<th>Wallet</th>
-								<th>Bitcoin Value</th>
+		<div class="row">
+			<div class="col-md-5 col-sm-12">
+				<table class="table text-center">
+					<thead>
+						<tr class="info">
+							<th>Currency</th>
+							<th>Sell Price</th>
+							<th>Wallet</th>
+							<th>Bitcoin Value</th>
+						</tr>
+					</thead>
+					<tbody id="list">
+							<tr>
+								<td colspan="2"></td>
+								<td>Rs. <span id="totalpost"></span></td>
+								<td> ~ <span id="totalpre"></span> BTC</td>
 							</tr>
-						</thead>
-						<tbody id="list">
-								<tr>
-									<td colspan="2"></td>
-									<td>Rs. <span id="totalpost"></span></td>
-									<td> ~ <span id="totalpre"></span> BTC</td>
-								</tr>
-						</tbody>
-					</table>
-				</div>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		<script src="jquery.min.js"></script>
