@@ -19,7 +19,8 @@
 						</thead>
 						<tbody id="list">
 								<tr>
-									<td id="total" colspan="4" class="text-right"></td>
+									<td id="totalpost" colspan="2"></td>
+									<td id="totalpre" colspan="2" class="text-right"></td>
 								</tr>
 						</tbody>
 					</table>
@@ -68,7 +69,10 @@
 										}
 								});
 						});
-						$('#total').html(walletBalance.toFixed(5));
+						$('#totalpre').html(walletBalance.toFixed(5));
+						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
+								$('#totalpost').html(Math.floor(walletBalance*parseInt(result)));
+						});
 				}
 				
 				function setTheTuple(coin, wallet){
