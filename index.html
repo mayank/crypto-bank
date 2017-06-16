@@ -18,7 +18,11 @@
 			</tbody>
 		</table>
 		<h3 class="text-center">
-			<span id="totalpre"></span> BTC = <span id="totalpost" class="text-success"></span>
+			<span id="totalpre"></span> BTC 
+			<br>
+			= 
+			<br>
+			<span id="totalpost" class="text-success"></span>
 		</h3>
 		<script src="jquery.min.js"></script>
 		<script>
@@ -89,7 +93,7 @@
 														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' + 
 														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' + 
 													'</td>' + 
-													'<td class="text-center">' + parseFloat(wallet.balance).toFixed(3) + '</td>' + 
+													'<td class="text-center strong">' + parseFloat(wallet.balance).toFixed(3) + '</td>' + 
 													'<td class="text-center">' + 
 														'<p>' + walletBalance + '</p>' + 
 														'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' + 
