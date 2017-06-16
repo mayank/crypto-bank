@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-5">
+					<table class="table text-center">
+						<thead>
+							<tr>
+								<th>Currency</th>
+								<th>Sell Price</th>
+								<th>Wallet</th>
+								<th>Bitcoin Value</th>
+							</tr>
+						</thead>
+						<tbody id="list">
+								<tr>
+									<td id="total" colspan="4" class="text-right"></td>
+								</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script>
+				var portfolio = [
+					{
+							"currency": "ETC",
+							"balance": "14.25714286"
+					},
+					{
+							"currency": "ETH",
+							"balance": "2.50687989"
+					},
+					{
+							"currency": "LTC",
+							"balance": "9.15596343"
+					},
+					{
+							"currency": "MCAP",
+							"balance": "49.90000019"
+					}
+				];
+				var coinAPI = [];
+				$(document).ready(function(){
+						hitTheMarket();
+				});
+				
+				function hitTheMarket(){
+					$.get('https://api.coinmarketcap.com/v1/ticker/', function(result){
+						coinAPI = result;
+						startFetchingData();
+						setTimeout(hitTheMarket, 3000);
+					});
+				}
+				
+				function startFetchingData(){
+						var walletBalance = 0;
+						portfolio.forEach(function(wallet){
+								coinAPI.forEach(function(coin){
+										if(coin.symbol == wallet.currency){
+												walletBalance += parseFloat(setTheTuple(coin, wallet));
+										}
+								});
+						});
+						$('#total').html(walletBalance.toFixed(5));
+				}
+				
+				function setTheTuple(coin, wallet){
+						var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
+						var elem = $('#list').children('#'+coin.id);
+						var html = '<tr id="' + coin.id + '">' + 
+													'<td>' + coin.name + '</td>' + 
+													'<td>' + coin.price_btc + '</td>' + 
+													'<td>' + wallet.balance + '</td>' + 
+													'<td>' + walletBalance + '</td>' + 
+												'</tr>';
+						if(elem.length > 0){
+								$(elem).replaceWith(html);
+						} else {
+								$('#list').prepend(html);
+						}
+						return walletBalance;
+				}
+		</script>
+	</body>
+</html>
