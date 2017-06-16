@@ -5,27 +5,21 @@
 		<meta content='width=device-width,initial-scale=1.0' name='viewport'>
 	</head>
 	<body>
-		<div class="row-fluid">
-			<div class="col-md-5 col-sm-12">
-				<table class="table text-center">
-					<thead>
-						<tr class="info">
-							<th>Currency</th>
-							<th>Sell Price</th>
-							<th>Wallet</th>
-							<th>Bitcoin Value</th>
-						</tr>
-					</thead>
-					<tbody id="list">
-							<tr>
-								<td colspan="2"></td>
-								<td><span id="totalpost"></span></td>
-								<td><span id="totalpre"></span> BTC</td>
-							</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<table class="table-responsive table text-center">
+			<thead>
+				<tr class="info">
+					<th class="text-center">Currency</th>
+					<th class="text-center">Sell Price</th>
+					<th class="text-center">Wallet</th>
+					<th class="text-center">Bitcoin Value</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+		<h3 class="text-center">
+			<span id="totalpre"></span> BTC = <span id="totalpost" class="text-success"></span>
+		</h3>
 		<script src="jquery.min.js"></script>
 		<script>
 				var portfolio = [
@@ -87,15 +81,15 @@
 						var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
 						var elem = $('#list').children('#'+coin.id);
 						var html = '<tr id="' + coin.id + '">' + 
-													'<td>' + coin.name + '</td>' + 
+													'<td class="text-center">' + coin.name + '</td>' + 
 													'<td>' +
 														'<p>' + coin.price_btc + '</p>' + 
-														'<p class="small">' + coin.price_usd + ' USD</p>' + 
+														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' + 
 													'</td>' + 
-													'<td>' + wallet.balance + '</td>' + 
-													'<td>' + 
+													'<td class="text-center">' + wallet.balance + '</td>' + 
+													'<td class="text-center">' + 
 														'<p>' + walletBalance + '</p>' + 
-														'<p class="small totalpost" data-balance="' + walletBalance + '"></p>' + 
+														'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' + 
 													'</td>' + 
 												'</tr>';
 						if(elem.length > 0){
