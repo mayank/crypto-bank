@@ -5,7 +5,7 @@
 		<meta content='width=device-width,initial-scale=1.0' name='viewport'>
 	</head>
 	<body>
-		<div class="row">
+		<div class="row-fluid">
 			<div class="col-md-5 col-sm-12">
 				<table class="table text-center">
 					<thead>
@@ -19,8 +19,8 @@
 					<tbody id="list">
 							<tr>
 								<td colspan="2"></td>
-								<td>Rs. <span id="totalpost"></span></td>
-								<td> ~ <span id="totalpre"></span> BTC</td>
+								<td><span id="totalpost"></span></td>
+								<td><span id="totalpre"></span> BTC</td>
 							</tr>
 					</tbody>
 				</table>
@@ -72,9 +72,14 @@
 										}
 								});
 						});
-						$('#totalpre').html(walletBalance.toFixed(5));
+					 	$('#totalpre').html(walletBalance.toFixed(5));
+						$('#totalpost').attr('data-balance', walletBalance).addClass('totalpost');
+						
 						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
-								$('#totalpost').html(Math.floor(walletBalance*parseInt(result.sell)));
+								$('.totalpost').each(function(){
+										var balance = parseFloat($(this).attr('data-balance'));
+										$(this).html('Rs.'+Math.floor(balance*parseFloat(result.sell)));
+								});
 						});
 				}
 				
@@ -85,10 +90,13 @@
 													'<td>' + coin.name + '</td>' + 
 													'<td>' +
 														'<p>' + coin.price_btc + '</p>' + 
-														'<small>' + coin.price_usd + '</small>' + 
+														'<p class="small">' + coin.price_usd + ' USD</p>' + 
 													'</td>' + 
 													'<td>' + wallet.balance + '</td>' + 
-													'<td>' + walletBalance + '</td>' + 
+													'<td>' + 
+														'<p>' + walletBalance + '</p>' + 
+														'<p class="small totalpost" data-balance="' + walletBalance + '"></p>' + 
+													'</td>' + 
 												'</tr>';
 						if(elem.length > 0){
 								$(elem).replaceWith(html);
