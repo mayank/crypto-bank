@@ -8,10 +8,10 @@
 		<table class="table-responsive table text-center">
 			<thead>
 				<tr class="info">
-					<th class="text-center">Currency</th>
-					<th class="text-center">Sell Price</th>
+					<th class="text-center">Coin</th>
+					<th class="text-center">Price</th>
 					<th class="text-center">Wallet</th>
-					<th class="text-center">Bitcoin Value</th>
+					<th class="text-center">BTC</th>
 				</tr>
 			</thead>
 			<tbody id="list">
@@ -81,12 +81,12 @@
 						var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
 						var elem = $('#list').children('#'+coin.id);
 						var html = '<tr id="' + coin.id + '">' + 
-													'<td class="text-center">' + coin.name + '</td>' + 
+													'<td class="text-center">' + coin.symbol + '</td>' + 
 													'<td>' +
-														'<p>' + coin.price_btc + '</p>' + 
+														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' + 
 														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' + 
 													'</td>' + 
-													'<td class="text-center">' + wallet.balance + '</td>' + 
+													'<td class="text-center">' + parseFloat(wallet.balance).toFixed(3) + '</td>' + 
 													'<td class="text-center">' + 
 														'<p>' + walletBalance + '</p>' + 
 														'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' + 
