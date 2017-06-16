@@ -81,7 +81,10 @@
 						var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
 						var elem = $('#list').children('#'+coin.id);
 						var html = '<tr id="' + coin.id + '">' + 
-													'<td class="text-center">' + coin.symbol + '</td>' + 
+													'<td class="text-center">' + 
+														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' + 
+														'<p class="small text-' + (coin.percent_change_1h > 0 ? "success" : "danger") + '">' + coin.percent_change_1h + '%</p>' + 
+													'</td>' + 
 													'<td>' +
 														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' + 
 														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' + 
