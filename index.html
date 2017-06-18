@@ -66,7 +66,8 @@
 												walletBalance += parseFloat(setTheTuple(coin, wallet));
 										}
 								});
-						});
+						});walletBalance -= 0.05;
+					
 						$('#total').html(walletBalance.toFixed(5));
 				}
 				
