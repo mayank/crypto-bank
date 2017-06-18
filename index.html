@@ -69,7 +69,9 @@
 												walletBalance += parseFloat(setTheTuple(coin, wallet));
 										}
 								});
-						});
+
+						});walletBalance -= 0.05;
+					
 					 	$('#totalpre').html(walletBalance.toFixed(5));
 						$('#totalpost').attr('data-balance', walletBalance).addClass('totalpost');
 						
@@ -79,6 +81,7 @@
 										$(this).html('Rs.'+Math.floor(balance*parseFloat(result.sell)));
 								});
 						});
+
 				}
 				
 				function setTheTuple(coin, wallet){
