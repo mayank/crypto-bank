@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" href="bootstrap.min.css">
 		<meta content='width=device-width,initial-scale=1.0' name='viewport'>
+		<link rel="manifest" href="manifest.json">
 	</head>
 	<body>
 		<table class="table-responsive table text-center">
@@ -18,9 +19,9 @@
 			</tbody>
 		</table>
 		<h3 class="text-center">
-			<span id="totalpre"></span> BTC 
+			<span id="totalpre"></span> BTC
 			<br>
-			= 
+			=
 			<br>
 			<span id="totalpost" class="text-success"></span>
 		</h3>
@@ -52,7 +53,7 @@
 				$(document).ready(function(){
 						hitTheMarket();
 				});
-				
+
 				function hitTheMarket(){
 					$.get('https://api.coinmarketcap.com/v1/ticker/', function(result){
 						coinAPI = result;
@@ -60,7 +61,7 @@
 						setTimeout(hitTheMarket, 3000);
 					});
 				}
-				
+
 				function startFetchingData(){
 						var walletBalance = 0;
 						portfolio.forEach(function(wallet){
@@ -71,10 +72,10 @@
 								});
 
 						});walletBalance -= 0.05;
-					
+
 					 	$('#totalpre').html(walletBalance.toFixed(5));
 						$('#totalpost').attr('data-balance', walletBalance).addClass('totalpost');
-						
+
 						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
 								$('.totalpost').each(function(){
 										var balance = parseFloat($(this).attr('data-balance'));
@@ -83,24 +84,24 @@
 						});
 
 				}
-				
+
 				function setTheTuple(coin, wallet){
 						var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
 						var elem = $('#list').children('#'+coin.id);
-						var html = '<tr id="' + coin.id + '">' + 
-													'<td class="text-center">' + 
-														'<p>' + coin.symbol + '</p>' + 
-														'<p class="small text-' + (coin.percent_change_1h > 0 ? "success" : "danger") + '">' + coin.percent_change_1h + '%</p>' + 
-													'</td>' + 
+						var html = '<tr id="' + coin.id + '">' +
+													'<td class="text-center">' +
+														'<p>' + coin.symbol + '</p>' +
+														'<p class="small text-' + (coin.percent_change_1h > 0 ? "success" : "danger") + '">' + coin.percent_change_1h + '%</p>' +
+													'</td>' +
 													'<td>' +
-														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' + 
-														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' + 
-													'</td>' + 
-													'<td class="text-center strong">' + parseFloat(wallet.balance).toFixed(3) + '</td>' + 
-													'<td class="text-center">' + 
-														'<p>' + walletBalance + '</p>' + 
-														'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' + 
-													'</td>' + 
+														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' +
+														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' +
+													'</td>' +
+													'<td class="text-center strong">' + parseFloat(wallet.balance).toFixed(3) + '</td>' +
+													'<td class="text-center">' +
+														'<p>' + walletBalance + '</p>' +
+														'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' +
+													'</td>' +
 												'</tr>';
 						if(elem.length > 0){
 								$(elem).replaceWith(html);
