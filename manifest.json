@@ -1,14 +1,14 @@
 {
   "short_name": "Crypto Wallet",
   "name": "Crypto Wallet",
-  "start_url": "/index.html",
+  "start_url": "/crypto-bank/index.html",
   "display": "fullscreen",
   "orientation": "portrait",
   "theme_color": "black",
   "background_color": "black",
   "icons": [{
         "size": "128x128",
-        "src": "img/icon.png",
+        "src": "/crypto-bank/img/icon.png",
         "type": "image/png"
   }]
 }
