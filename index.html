@@ -18,6 +18,9 @@
 	<body>
 		<table class="table-responsive table text-center">
 			<thead>
+				<tr>
+					<th colspan="4" class="text-center" id="calculated"></th>
+				</tr>
 				<tr class="info">
 					<th class="text-center">Coin</th>
 					<th class="text-center">Price</th>
@@ -37,6 +40,7 @@
 		</h3>
 		<script src="jquery.min.js"></script>
 		<script>
+				var investment = 110000; // Rs. 1,10,000
 				var portfolio = [
 
 
@@ -47,16 +51,16 @@
 							"balance": "3.0"
 					},
 					{
+
 							"currency": "NEO",
 							"balance": "30.0"
-					},
 
 
 
 
 					{
 							"currency": "MIOTA",
-							"balance": "94.78"
+							"balance": "109.62669602"
 					}
 				];
 				var coinAPI = [];
@@ -89,7 +93,18 @@
 						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
 								$('.totalpost').each(function(){
 										var balance = parseFloat($(this).attr('data-balance'));
-										$(this).html('Rs.'+Math.floor(balance*parseFloat(result.sell)));
+										var inr = balance*parseFloat(result.sell);
+										$(this).html('Rs.'+Math.floor(inr));
+										var profitLoss = ( inr - investment ) / investment;
+
+										$('#calculated').html(  Math.abs(profitLoss*100).toFixed(2) + '%' );
+
+										if( profitLoss < 0 ){
+											$('#calculated').addClass("danger").removeClass("success");
+										} else  {
+											$('#calculated').addClass("success").removeClass("danger");
+										}
+
 								});
 						});
 
