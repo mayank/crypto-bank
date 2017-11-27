@@ -40,8 +40,9 @@
 		</h3>
 		<script src="jquery.min.js"></script>
 		<script>
-				var investment = 110000; // Rs. 1,10,000
+				var investment = 250000; // Rs. 1,70,000
 				var portfolio = [
+
 					{
 							"currency": "BCH",
 							"balance": "1.03"
@@ -68,6 +69,7 @@
 					{
 							"currency": "BTC",
 							"balance": "0.0"
+
 					}
 				];
 				var coinAPI = [];
@@ -92,7 +94,7 @@
 										}
 								});
 
-						});walletBalance -= 0.05;
+						});
 
 					 	$('#totalpre').html(walletBalance.toFixed(5));
 						$('#totalpost').attr('data-balance', walletBalance).addClass('totalpost');
