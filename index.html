@@ -94,10 +94,10 @@
 				});
 
 				function hitTheMarket(){
-					$.get('https://api.coinmarketcap.com/v1/ticker/', function(result){
+					$.get('https://api.coinmarketcap.com/v1/ticker/?limit=0', function(result){
 						coinAPI = result;
 						startFetchingData();
-						setTimeout(hitTheMarket, 3000);
+						setTimeout(hitTheMarket, 10000);
 					});
 				}
 
