@@ -40,35 +40,51 @@
 		</h3>
 		<script src="jquery.min.js"></script>
 		<script>
-				var investment = 250000; // Rs. 1,70,000
+				var investment = 540000; // Rs. 1,70,000
 				var portfolio = [
 
 					{
-							"currency": "BCH",
-							"balance": "1.03"
+							"currency": "GAS",
+							"balance": "1"
+					},
+					{
+							"currency": "MUSIC",
+							"balance": "2236.76509577"
+					{
+							"currency": "ADA",
+							"balance": "4516.69853752"
+					},
+					{
+							"currency": "MIOTA",
+							"balance": "316.988973"
 					},
 					{
 							"currency": "NEO",
-							"balance": "132.57316673"
-					{
-							"currency": "MIOTA",
-							"balance": "109.62669602"
+							"balance": "122.689807"
 					},
 					{
-							"currency": "TKN",
-							"balance": "0.0"
-					},
-					{
-							"currency": "LTC",
-							"balance": "0.0"
+							"currency": "XRB",
+							"balance": "27.35662657"
 					},
 					{
 							"currency": "PRG",
-							"balance": "133.273"
+							"balance": "131.471353"
 					},
 					{
-							"currency": "BTC",
-							"balance": "0.0"
+							"currency": "STEEM",
+							"balance": "623.24785675"
+					},
+					{
+							"currency": "TRX",
+							"balance": "22335.642"
+					},
+					{
+							"currency": "LIFE",
+							"balance": "18814.32985938"
+					},
+					{
+							"currency": "IGNIS",
+							"balance": "185.26678048"
 
 					}
 				];
@@ -99,7 +115,7 @@
 					 	$('#totalpre').html(walletBalance.toFixed(5));
 						$('#totalpost').attr('data-balance', walletBalance).addClass('totalpost');
 
-						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
+						$.get('https://live.zebapi.com/api/v1/ticker?currencyCode=INR', function(result){
 								$('.totalpost').each(function(){
 										var balance = parseFloat($(this).attr('data-balance'));
 										var inr = balance*parseFloat(result.sell);
