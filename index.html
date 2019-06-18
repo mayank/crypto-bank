@@ -1,149 +1,130 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="bootstrap.min.css">
-		<meta content='width=device-width,initial-scale=1.0' name='viewport'>
 
-		<link rel="manifest" href="manifest.json">
+<head>
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<meta content='width=device-width,initial-scale=1.0' name='viewport'>
 
-		<link rel="prefetch" href="./img/icon.png">
-		<link rel="apple-touch-icon" href="./img/icon.png">
-		<link rel="icon" href="./img/icon.png" type="image/x-icon">
+	<link rel="manifest" href="manifest.json">
 
-		<meta name="apple-mobile-web-app-status-bar-style" content="#000">
-		<meta name="theme-color" content="#000" id="themeColor">
+	<link rel="prefetch" href="./img/icon.png">
+	<link rel="apple-touch-icon" href="./img/icon.png">
+	<link rel="icon" href="./img/icon.png" type="image/x-icon">
 
-		<meta name="apple-mobile-web-app-capable" content="yes">
-	</head>
-	<body>
-		<table class="table-responsive table text-center">
-			<thead>
-				<tr>
-					<th colspan="4" class="text-center" id="calculated"></th>
-				</tr>
-				<tr class="info">
-					<th class="text-center">Coin</th>
-					<th class="text-center">Price</th>
-					<th class="text-center">Wallet</th>
-					<th class="text-center">BTC</th>
-				</tr>
-			</thead>
-			<tbody id="list">
-			</tbody>
-		</table>
-		<h3 class="text-center">
-			<span id="totalpre"></span> BTC
-			<br>
-			=
-			<br>
-			<span id="totalpost" class="text-success"></span>
-		</h3>
-		<script src="jquery.min.js"></script>
-		<script>
-				var investment = 390000; // Rs. 3,90,000
-				var portfolio = [
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+	<meta name="theme-color" content="#000" id="themeColor">
 
-					{
-							"currency": "BCH",
-							"balance": "1.03"
-					},
-					{
-							"currency": "NEO",
-							"balance": "132.57316673"}, 
-					{
-							"currency": "MIOTA",
-							"balance": "109.62669602"
-					},
-					{
-							"currency": "TKN",
-							"balance": "0.0"
-					},
-					{
-							"currency": "LTC",
-							"balance": "0.0"
-					},
-					{
-							"currency": "PRG",
-							"balance": "133.273"
-					},
-					{
-							"currency": "BTC",
-							"balance": "0.0"
+	<meta name="apple-mobile-web-app-capable" content="yes">
+</head>
 
+<body>
+	<table class="table-responsive table text-center">
+		<thead>
+			<tr>
+				<th colspan="4" class="text-center" id="calculated"></th>
+			</tr>
+			<tr class="info">
+				<th class="text-center">Coin</th>
+				<th class="text-center">Price</th>
+				<th class="text-center">Wallet</th>
+				<th class="text-center">BTC</th>
+			</tr>
+		</thead>
+		<tbody id="list">
+		</tbody>
+	</table>
+	<h3 class="text-center">
+		<span id="totalpre"></span> BTC
+		<br>
+		=
+		<br>
+		<span id="totalpost" class="text-success"></span>
+	</h3>
+	<script src="jquery.min.js"></script>
+	<script>
+		var investment = 1500;
+		var portfolio = [
+
+			{
+				"currency": "MIOTA",
+				"balance": "316.988973"
+			},
+			{
+				"currency": "TRX",
+				"balance": "37105.50"
+			},
+			{
+				"currency": "XRP",
+				"balance": "1999.85"
+			}
+		];
+		var coinAPI = [];
+		var btcUsd = 0;
+		$(document).ready(function () {
+			hitTheMarket();
+		});
+
+		function hitTheMarket() {
+			$.get('https://api.coinmarketcap.com/v1/ticker/?limit=0', function (result) {
+				coinAPI = result;
+				startFetchingData();
+				setTimeout(hitTheMarket, 10000);
+			});
+		}
+
+		function startFetchingData() {
+			var walletBalance = 0;
+			portfolio.forEach(function (wallet) {
+				coinAPI.forEach(function (coin) {
+					if (coin.symbol == wallet.currency) {
+						walletBalance += parseFloat(setTheTuple(coin, wallet));
 					}
-				];
-				var coinAPI = [];
-				$(document).ready(function(){
-						hitTheMarket();
+					if (coin.symbol == 'BTC') {
+						btcUsd = parseFloat(coin.price_usd);
+					}
 				});
 
-				function hitTheMarket(){
-					$.get('https://api.coinmarketcap.com/v1/ticker/?limit=0', function(result){
-						coinAPI = result;
-						startFetchingData();
-						setTimeout(hitTheMarket, 10000);
-					});
-				}
+			});
 
-				function startFetchingData(){
-						var walletBalance = 0;
-						portfolio.forEach(function(wallet){
-								coinAPI.forEach(function(coin){
-										if(coin.symbol == wallet.currency){
-												walletBalance += parseFloat(setTheTuple(coin, wallet));
-										}
-								});
+			$('#totalpre').html(walletBalance.toFixed(5));
+			let currentValue = walletBalance * btcUsd;
+			$('#totalpost').html("$ " + currentValue.toFixed(2)).addClass('totalpost');
+			let profitLoss = (currentValue - investment) / investment;
+			$('#calculated').html(Math.abs(profitLoss * 100).toFixed(2) + '%');
+			if (profitLoss < 0) {
+				$('#calculated').addClass("danger").removeClass("success");
+			} else {
+				$('#calculated').addClass("success").removeClass("danger");
+			}
+		}
 
-						});
+		function setTheTuple(coin, wallet) {
+			console.log(coin, wallet);
+			var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
+			var elem = $('#list').children('#' + coin.id);
+			var html = '<tr id="' + coin.id + '">' +
+				'<td class="text-center">' +
+				'<p>' + coin.symbol + '</p>' +
+				'<p class="small text-' + (coin.percent_change_1h > 0 ? "success" : "danger") + '">' + coin.percent_change_1h + '%</p>' +
+				'</td>' +
+				'<td>' +
+				'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' +
+				'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' +
+				'</td>' +
+				'<td class="text-center strong">' + parseFloat(wallet.balance).toFixed(3) + '</td>' +
+				'<td class="text-center">' +
+				'<p>' + walletBalance + '</p>' +
+				'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' +
+				'</td>' +
+				'</tr>';
+			if (elem.length > 0) {
+				$(elem).replaceWith(html);
+			} else {
+				$('#list').prepend(html);
+			}
+			return walletBalance;
+		}
+	</script>
+</body>
 
-					 	$('#totalpre').html(walletBalance.toFixed(5));
-						$('#totalpost').attr('data-balance', walletBalance).addClass('totalpost');
-
-						$.get('https://api.zebpay.com/api/v1/ticker?currencyCode=INR', function(result){
-								$('.totalpost').each(function(){
-										var balance = parseFloat($(this).attr('data-balance'));
-										var inr = balance*parseFloat(result.sell);
-										$(this).html('Rs.'+Math.floor(inr));
-										var profitLoss = ( inr - investment ) / investment;
-
-										$('#calculated').html(  Math.abs(profitLoss*100).toFixed(2) + '%' );
-
-										if( profitLoss < 0 ){
-											$('#calculated').addClass("danger").removeClass("success");
-										} else  {
-											$('#calculated').addClass("success").removeClass("danger");
-										}
-
-								});
-						});
-
-				}
-
-				function setTheTuple(coin, wallet){
-						var walletBalance = (parseFloat(wallet.balance) * parseFloat(coin.price_btc)).toFixed(5);
-						var elem = $('#list').children('#'+coin.id);
-						var html = '<tr id="' + coin.id + '">' +
-													'<td class="text-center">' +
-														'<p>' + coin.symbol + '</p>' +
-														'<p class="small text-' + (coin.percent_change_1h > 0 ? "success" : "danger") + '">' + coin.percent_change_1h + '%</p>' +
-													'</td>' +
-													'<td>' +
-														'<p>' + parseFloat(coin.price_btc).toFixed(4) + '</p>' +
-														'<p class="small text-warning">' + parseFloat(coin.price_usd).toFixed(3) + ' USD</p>' +
-													'</td>' +
-													'<td class="text-center strong">' + parseFloat(wallet.balance).toFixed(3) + '</td>' +
-													'<td class="text-center">' +
-														'<p>' + walletBalance + '</p>' +
-														'<p class="small totalpost text-info" data-balance="' + walletBalance + '"></p>' +
-													'</td>' +
-												'</tr>';
-						if(elem.length > 0){
-								$(elem).replaceWith(html);
-						} else {
-								$('#list').prepend(html);
-						}
-						return walletBalance;
-				}
-		</script>
-	</body>
 </html>
